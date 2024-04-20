@@ -31,7 +31,7 @@ class ViewsController {
 
         try {
             const {docs,...rest} = await itemsService.getAll(req.query);
-            res.render('items', {items: docs, style:'items.css', user: req.tokenUser, ...rest})
+            res.render('items', {items: docs, style:'items.css', user: req.user, ...rest})
         } catch (error) {
             res.status(error.status || 500).send({status:'error', error: error.message})
         }

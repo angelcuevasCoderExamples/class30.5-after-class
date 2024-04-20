@@ -28,11 +28,6 @@ app.use(cookieParser())
 app.engine('handlebars', handlebars.engine())
 app.set('views', `${__dirname}/views`)
 app.set('view engine', 'handlebars')
-// app.use(session({
-//     secret:'sessionSecret',
-//     resave:false,
-//     saveUninitialized:false
-// }))
 
 //public files
 app.use(express.static(`${__dirname}/public`))

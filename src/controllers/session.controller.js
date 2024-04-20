@@ -57,8 +57,9 @@ class SessionController {
         }
     }
     static async getCurrent(req, res){
-        const user = req.tokenUser; 
-        res.send({payload: user})
+        const user = req.user; 
+        const userDTO= new UserDTO(user);
+        res.send({payload: userDTO})
     }  
 
 }
