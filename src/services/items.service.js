@@ -1,8 +1,7 @@
-const ItemsDao  =require('../dao/dbManagers/items.dao')
 
 class ItemsService {
-    constructor(){
-        this.dao = new ItemsDao(); 
+    constructor(dao){
+        this.dao = dao;
     }
 
     async getAll(queryParams = null){

@@ -1,6 +1,4 @@
-const ItemsService = require('../services/items.service');
-
-const itemsService = new ItemsService();
+const { itemsService } = require('../repositories/index')
 
 class ItemsController {
     static async getAll(req, res){

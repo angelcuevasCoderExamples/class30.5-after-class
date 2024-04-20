@@ -1,8 +1,4 @@
-const CartService = require('../services/carts.service')
-const ItemsService = require('../services/items.service')
-
-const cartService = new CartService()
-const itemsService = new ItemsService()
+const {cartsService, itemsService } = require('../repositories')
 
 class ViewsController {
     static async getHome(req, res){
@@ -61,7 +57,7 @@ class ViewsController {
 
     static async getCartById(req, res){
         try {
-            const cart  = await cartService.getById(req.params.cid)
+            const cart  = await cartsService.getById(req.params.cid)
             res.render('cart', {...cart, style:'items.css'})
         } catch (error) {
             res.status(error.status || 500).send({status:'error', error: error.message})

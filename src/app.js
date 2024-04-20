@@ -5,7 +5,6 @@ const cartRouter = require('./routes/cart.router');
 const handlebars = require('express-handlebars');
 const {Server} = require('socket.io');
 const ItemsManager = require('./dao/dbManagers/ItemsManager');
-const mongoose = require('mongoose');
 const messageModel = require('./dao/models/message');
 const {sessionRouter} = require('./routes/sessions.router');
 const manager = new ItemsManager(__dirname+'/files/items.json')
@@ -14,10 +13,6 @@ const passport = require('passport')
 const initializePassport = require('./config/passport.config')
 const cookieParser = require('cookie-parser');
 const { mongoConnectionLink, port } = require('./config/config');
-
-mongoose.connect(mongoConnectionLink).then(()=>{
-    console.log('connected to atlas.')
-})
 
 const app = express();
 
