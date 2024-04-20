@@ -3,6 +3,7 @@ const local = require('passport-local');
 const {hashPassword, isValidPassword} = require('../utils')
 const github = require('passport-github2');
 const userModel = require('../dao/models/user');
+const { usersService, cartsService } = require('../repositories');
 
 const initializePassport = ()=>{
     
@@ -11,22 +12,28 @@ const initializePassport = ()=>{
         usernameField: 'email',
         session:false
     }, async (req, email, password, done)=>{
+        let existingUser; 
+     
+        existingUser = await usersService.getByProperty("email", email)
+  
+
         try {
             
             const {first_name, last_name } = req.body;
             if(!first_name || !last_name ) return done(null, false, {message:'incomplete parameters'})
             
-            const existingUser = await userModel.findOne({email})
             if(existingUser) return done(null, false, {message:'user by that email already exist'})
-            
+
+            const cart = await cartsService.create();
             const newUserData = {
                 first_name, 
                 last_name,
                 email,
-                password: hashPassword(password) 
+                password: hashPassword(password),
+                cart: cart._id 
             }
 
-            let result = await userModel.create(newUserData)
+            let result = await usersService.create(newUserData)
             return done(null, result)
             
         } catch (error) {
@@ -41,8 +48,7 @@ const initializePassport = ()=>{
     }, async (email, password, done)=>{
         try {            
 
-
-            const user = await userModel.findOne({email});
+            const user = await usersService.getByProperty("email",email);
             if(!user)  return done(null, false, {message:'user does not exist'})
 
             if(!isValidPassword(user, password)) return done(null, false, {message:'Incorrect password'})

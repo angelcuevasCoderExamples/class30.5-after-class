@@ -11,6 +11,13 @@ class UsersDao {
         return await userModel.findOne({_id:id}).populate('items.item').lean()
     }
 
+    async getByProperty(property, name){
+        let opts = {}
+        opts[property] = name; 
+        let result = await userModel.findOne(opts).lean()
+        return result; 
+    }
+
     async create(item){
         return await userModel.create(item)
     }

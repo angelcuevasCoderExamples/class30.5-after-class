@@ -23,6 +23,7 @@ class CartsController {
     /** cart content specific methods */
     
     static async addItem(req, res){ 
+        
         const id = req.params.id; 
         const itemId = req.params.iid; 
         
@@ -30,6 +31,7 @@ class CartsController {
             const result = await cartsService.addItem(id, itemId)
             res.send({status:'success', payload: result})
         } catch (error) {
+            console.log(error)
             return res.status(error.status || 500).send({status:'error', error:error.message})
         }
 
@@ -74,6 +76,19 @@ class CartsController {
             const result = await cartsService.deleteAllItems(id)
             res.send(result)
         } catch (error) {
+            return res.status(error.status || 500).send({status:'error', error:error.message})
+        }
+    }
+
+    static async purchase(req, res){
+        const {id} = req.params; 
+        try {
+            const remainderItems = await cartsService.purchase(id, req.user.email)
+           
+            
+            res.send({status:'success', payload: remainderItems})
+        } catch (error) {
+            console.log(error)
             return res.status(error.status || 500).send({status:'error', error:error.message})
         }
     }

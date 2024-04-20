@@ -6,7 +6,8 @@ const itemSchema = new mongoose.Schema({
         type:String 
     },
     category: String,
-    price: Number
+    price: Number,
+    stock: Number 
 })
 itemSchema.plugin(mongoosePaginate)
 const itemModel = mongoose.model('items', itemSchema)

@@ -14,6 +14,13 @@ class UsersService {
         return item;
     }
 
+    async getByProperty(property, value){
+        const item = await this.dao.getByProperty(property, value); 
+        if(!item) throw { message:`There's no Item by ${property} = ${value}`, status:400 }
+        return item;
+    }
+
+
     async create(toy){
         return await this.dao.create(toy);
     }

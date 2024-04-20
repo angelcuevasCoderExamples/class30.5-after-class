@@ -1,7 +1,12 @@
+const MailingService = require("../services/mailing.service");
+
+const mailingService = new MailingService()
+
 class CartService {
-    constructor(dao, itemsService){
+    constructor(dao, itemsService, ticketService){
         this.dao = dao; 
         this.itemsService = itemsService; 
+        this.ticketService = ticketService; 
     }
 
     async getAll(){
@@ -37,6 +42,7 @@ class CartService {
     async addItem(id, itemId){
         
         const cart = await this.getById(id);
+        console.log(cart.items)
         const index = cart.items.findIndex(i=>i.item._id == itemId)
 
         if(index >= 0){
@@ -89,6 +95,32 @@ class CartService {
         await this.getById(cartId);
         await this.update(cartId, {items: [] })
         return this.getById(cartId);
+    }
+
+    async purchase(cartId, userEmail){
+        const cart = await this.getById(cartId);
+        
+        const notPurchasedIds = []
+        let totalAmount = 0; 
+        //for (const item of cart.items) {
+        for (let i = 0; i < cart.items.length; i++) {
+            const item = cart.items[i];
+            const remainder = item.item.stock - item.quantity;
+            if(remainder >= 0){
+                await this.itemsService.update(item.item._id, {...item.item, stock:remainder } )
+                await this.deleteItemById(cartId, item.item._id.toString())
+                totalAmount+= item.quantity * item.item.price;
+            }else{
+                notPurchasedIds.push(item.item._id);
+            }
+        }; 
+
+        if(totalAmount > 0){
+            await this.ticketService.generate(userEmail, totalAmount); 
+            //await mailingService.sendPurchaseMail(req.user.email);
+        }
+
+        return notPurchasedIds;
     }
 
 }

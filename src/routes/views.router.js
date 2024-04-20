@@ -2,10 +2,11 @@ const {Router} = require('express');
 const CartManager = require('../dao/dbManagers/CartManager');
 const ItemsManager = require('../dao/dbManagers/ItemsManager');
 const jwt = require('jsonwebtoken');
-const { getToken } = require('../utils');
+const getToken = require('../middlewares/getToken.middleware');
 const ViewsController = require('../controllers/views.controller');
 const publicAccess = require('../middlewares/publicAccess.middleware');
 const privateAccess = require('../middlewares/privateAccess.middleware');
+const checkRole = require('../middlewares/checkRole.middleware');
 
 const manager = new ItemsManager()
 const cartManager = new CartManager()
@@ -16,7 +17,7 @@ router.get('/', ViewsController.getHome)
 
 router.get('/realtimeitems', ViewsController.getRealTimeItems)
 
-router.get('/chat', ViewsController.getChat)
+router.get('/chat', getToken, checkRole('user'),  ViewsController.getChat)
 
 router.get('/items', getToken, ViewsController.getItems)
 

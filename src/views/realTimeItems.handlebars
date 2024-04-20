@@ -13,6 +13,8 @@
             <tr>
                 <td>{{this._id}}</td>
                 <td>{{this.description}}</td>
+                <td>stock {{this.stock}}</td>
+                <td>price ${{this.price}}</td>
                 <td><button onclick="deleteItem('{{this._id}}')">delete</button></td>
             </tr>
         {{/each}}
@@ -28,8 +30,21 @@
 </div>
 
 <h2>HTML Form</h2>
-<form action="/api/items" method="POST">
-    <input type="text" name="description" />
+<form id="myForm" action="/api/items" method="POST">
+    <div>
+        <label for="description">description</label>
+        <input type="text" name="description" />
+    </div>
+    <div>
+        <label for="stock">stock</label>
+        <input type="text" name="stock" />
+    </div>
+
+    <div>
+        <label for="price">price</label>
+        <input type="text" name="price" />
+    </div>
+    
     <button type="submit">crear desde form</button>
 </form>
 

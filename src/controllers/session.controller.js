@@ -1,8 +1,12 @@
 const jwt = require('jsonwebtoken');
 const { jwtSecret } = require('../config/config');
+const MailingService = require('../services/mailing.service');
+
+const mailingService = new MailingService();
 
 class SessionController {
     static async registerUser(req, res) {
+        //await MailingService.sendRegisterMail(req.user.email) 
         res.send({ status: 'success', message: 'User registered successfuly' })
     }
     static async getRegisterError(req, res) {

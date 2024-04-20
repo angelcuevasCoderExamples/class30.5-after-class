@@ -1,6 +1,6 @@
 const {Router} = require('express');
 const passport = require('passport')
-const { getToken } = require('../utils');
+const getToken = require('../middlewares/getToken.middleware');
 const SessionController = require('../controllers/session.controller');
 const sessionRouter = Router();
 

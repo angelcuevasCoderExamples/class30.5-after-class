@@ -1,11 +1,12 @@
-let myUserName = '';
-let socket = io();
+
 
 /** inputs references */
 const userNameTitle = document.getElementById("userNameTitle")
 const messageInput = document.getElementById("messageInput")
 const messagesLog = document.getElementById("messagesLog")
 
+let myUserName =  userNameTitle.innerHTML;
+let socket = io();
 
 /** Socket events */
 
@@ -31,17 +32,17 @@ messageInput.addEventListener('keyup',(e)=>{
 
 /** Sweet alert */
 
-Swal.fire({
-    title: 'Login',
-    text: 'Please enter your username to continue.',
-    input: 'email',
-    allowOutsideClick: false
-    // inputValidator: (value)=>{
-    //     if(!value){
-    //         return 'We need a username to continue.'
-    //     }
-    // }
-}).then((result)=>{
-    myUserName = result.value;
-    userNameTitle.innerHTML = myUserName;
-})
+// Swal.fire({
+//     title: 'Login',
+//     text: 'Please enter your username to continue.',
+//     input: 'email',
+//     allowOutsideClick: false
+//     // inputValidator: (value)=>{
+//     //     if(!value){
+//     //         return 'We need a username to continue.'
+//     //     }
+//     // }
+// }).then((result)=>{
+//     myUserName = result.value;
+//     userNameTitle.innerHTML = myUserName;
+// })

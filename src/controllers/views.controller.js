@@ -21,7 +21,7 @@ class ViewsController {
 
     static async getChat(req, res){
         try{    
-            res.render('chat',{})
+            res.render('chat',{user: req.user})
         } catch (error) {
             res.status(error.status || 500).send({status:'error', error: error.message})
         }
@@ -31,7 +31,8 @@ class ViewsController {
 
         try {
             const {docs,...rest} = await itemsService.getAll(req.query);
-            res.render('items', {items: docs, style:'items.css', user: req.user, ...rest})
+            const cart = await cartsService.getById(req.user.cart)
+            res.render('items', {items: docs, style:'items.css', user: req.user, cart, ...rest})
         } catch (error) {
             res.status(error.status || 500).send({status:'error', error: error.message})
         }
